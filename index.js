@@ -7,6 +7,7 @@ const KnexSessionStore = require('connect-session-knex')(sessions);
 
 const server = express();
 
+const restrictedRouter = require('./restricted/restricted-router.js');
 const db = require('./database/dbConfig.js');
 const Users = require('./users/users-model.js');
 const knexConfig = require('./database/dbConfig.js');
@@ -38,7 +39,7 @@ server.use(helmet());
 server.use(express.json());
 server.use(cors());
 server.use(logger);
-
+server.use('/api/restricted', restrictedRouter);
 
 server.get('/', (req, res) => {
     const nameInsert = req.teamName ? ` ${req.teamName}` : '';
